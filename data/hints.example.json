@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "example.objective.notice",
+      "questPath": "quests/example/example_quest",
+      "objectivePath": "quests/example/example_quest/example_phase/example_objective",
+      "level": "notice",
+      "label": "值得留意",
+      "source": "Example only. Replace with a verified Journal path and human-reviewed provenance before enabling in production.",
+      "enabled": false
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/cyberpunk2077-spoiler-free-quest-hints/hints.schema.json",
+  "title": "Spoiler-Free Quest Hint Rules",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "rules"],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "questPath", "level", "label", "source"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "questPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "objectivePath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "level": {
+          "enum": ["none", "notice", "important", "critical"]
+        },
+        "label": {
+          "enum": ["", "值得留意", "重要阶段", "关键节点 · 建议存档"]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Maintainer-only provenance; never render directly in game."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"level": {"const": "none"}}
+          },
+          "then": {
+            "properties": {"label": {"const": ""}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"level": {"const": "notice"}}
+          },
+          "then": {
+            "properties": {"label": {"const": "值得留意"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"level": {"const": "important"}}
+          },
+          "then": {
+            "properties": {"label": {"const": "重要阶段"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"level": {"const": "critical"}}
+          },
+          "then": {
+            "properties": {"label": {"const": "关键节点 · 建议存档"}}
+          }
+        }
+      ]
+    }
+  }
+}
