@@ -6,7 +6,7 @@
 - Quest title：`Riders on the Storm`
 - 当前状态：`journal-located`
 - 候选影响：`relationship` / `followup` / `ending`
-- 当前置信度：`medium`
+- 当前置信度：`high`（任务级）；具体 fact 仍待验证
 
 ## 种子来源
 
@@ -63,14 +63,14 @@
 
 ### 具体阶段
 
-目前最值得继续追踪 scene / fact 的阶段：
+当前已经进入 `stage-candidates.jsonl` 的阶段：
 
-1. `03_escape/sit_down`
-2. `03_escape/panam_talk`
-3. `03_escape/morning_after`
-4. 任务失败触发点（它不一定对应单一 objective，需要从 questphase / facts 定位）
+1. `03_escape/sit_down` → `important`：外部资料一致把坐下后的连续对话视为 Panam 关系线的重要阶段。
+2. `03_escape/morning_after` → `notice`：次日对话还有一次关系信号选择。
 
-不能仅根据攻略直接把这些 objective 写进正式 `stageHints`；需要先找到游戏内部逻辑证据。
+`03_escape/panam_talk` / `03_escape/return` 仍保留在调查范围，但目前没有足够证据证明它们需要单独提示。任务失败触发点也不一定对应单一 objective，需要从 questphase / facts 定位。
+
+这些仍只是研究候选，不能直接写进正式 `stageHints`；需要先找到游戏内部逻辑证据。
 
 ## 游戏内验收
 

@@ -6,11 +6,13 @@
 
 ```text
 research/
-├─ candidates.jsonl                  # 一行一个候选研究任务；机器可读的研究队列
+├─ candidates.jsonl                  # 一行一个候选大任务；机器可读的研究队列
+├─ stage-candidates.jsonl            # 精确到 objective 的候选提示阶段
 ├─ cases/                            # 单个候选的详细调查记录
 │  └─ TEMPLATE.md
 └─ sources/
-   └─ questguide-1.5.0-seed.json     # 从本地 QuestGuide 1.5.0 归一化出的种子集合
+   ├─ questguide-1.5.0-seed.json     # 从本地 QuestGuide 1.5.0 归一化出的种子集合
+   └─ redmodding-quest-roots.json    # 已确认的官方 questPath / title 根信息
 ```
 
 正式进入游戏的规则仍然只来自：
@@ -46,10 +48,11 @@ candidate
 ## 数据源优先级
 
 1. **游戏真实资源**：`.quest` / `.questphase` / `.scene` / Quest Facts。用于确认因果链。
-2. **CDPR / REDmodding Journal 数据**：用于定位稳定的 quest / phase / objective 内部路径。
-3. **本地 QuestGuide 1.5.0**：作为人工筛过的高价值候选种子，不作为最终唯一事实来源。
-4. **成熟 Wiki / Walkthrough**：用于发现候选和交叉验证。
-5. **游戏内 A/B 存档测试**：最终验收，尤其是 `critical` 规则。
+2. **已验证的游戏资源提取结果**：例如 RedSync 从 `basegame_4_gamedata.archive` 解出的 quest/questphase fact 索引。它可以证明某个状态被任务图引用，但在没有 node 类型时不能单独证明 Set/Condition 方向。
+3. **CDPR / REDmodding Journal 数据**：用于定位稳定的 quest / phase / objective 内部路径。
+4. **本地 QuestGuide 1.5.0**：作为人工筛过的高价值候选种子，不作为最终唯一事实来源。
+5. **成熟 Wiki / Walkthrough**：用于发现候选和交叉验证。
+6. **游戏内 A/B 存档测试**：最终验收，尤其是 `critical` 规则。
 
 ## QuestGuide 使用边界
 
@@ -67,5 +70,7 @@ references/QuestGuide-1.5.0/
 
 - `suspectedImpacts` 只是“待验证影响类型”，不是正式结论。
 - 不在研究队列中记录推荐选项、角色命运、结局名称等玩家可见剧透字段。
-- 能定位到具体 objective 时，优先把阶段提示缩窄到 objective，而不是整条 quest fallback。
+- 能定位到具体 objective 时，优先把阶段提示缩窄到 `stage-candidates.jsonl`，而不是整条 quest fallback。
+- 大任务重要不等于每个 objective 都重要。若任务只是后续链路前置、内部选项本身无后果，则保留 quest-level `followup`，不创建 stage candidate。
+- `critical` 优先用于不可逆、直接改变重要后续/结局资格或非常适合提前存档的阶段；普通人物关系选择默认用 `important` / `notice`。
 - 如果后续证据推翻候选，保留调查记录并标记为 `rejected` / 在 notes 中说明，而不是悄悄删除研究历史。
