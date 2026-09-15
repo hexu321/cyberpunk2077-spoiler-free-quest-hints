@@ -1,6 +1,15 @@
 {
-  "schemaVersion": 1,
-  "rules": [
+  "schemaVersion": 2,
+  "questImpacts": [
+    {
+      "id": "example.quest-impact",
+      "questPath": "quests/example/example_quest",
+      "impacts": ["relationship", "followup"],
+      "source": "Example only. Replace with a verified Journal path and human-reviewed provenance before enabling in production.",
+      "enabled": false
+    }
+  ],
+  "stageHints": [
     {
       "id": "example.objective.notice",
       "questPath": "quests/example/example_quest",

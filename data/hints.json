@@ -1,19 +1,49 @@
 {
-  "schemaVersion": 1,
-  "rules": [
+  "schemaVersion": 2,
+  "questImpacts": [
+    {
+      "id": "base.heroes-relationships",
+      "questPath": "quests/side_quest/sq018_jackie",
+      "impacts": ["relationship"],
+      "source": "CDPR journal quest data for Heroes; Cyberpunk Wiki notes that convincing Misty to attend the ofrenda and speaking with Mama Welles can improve their relationship"
+    },
+    {
+      "id": "base.nocturne-ending",
+      "questPath": "quests/meta/02_sickness",
+      "impacts": ["ending"],
+      "source": "CDPR journal quest data for Nocturne Op55N1; this quest contains the endgame route selection"
+    },
+    {
+      "id": "ep1.firestarter-branch-ending",
+      "questPath": "ep1/quests/main_quest/q304_deal",
+      "impacts": ["followup", "ending"],
+      "source": "CDPR journal quest data for Firestarter; the mainframe decision branches the Phantom Liberty route and later ending availability"
+    }
+  ],
+  "stageHints": [
+    {
+      "id": "base.heroes-talk-misty",
+      "questPath": "quests/side_quest/sq018_jackie",
+      "objectivePath": "quests/side_quest/sq018_jackie/02_storage/05a_optional_talk_misty",
+      "level": "notice",
+      "label": "值得留意",
+      "source": "CDPR journal objective path; Cyberpunk Wiki notes this conversation can lead to improved relations between Misty and Mama Welles"
+    },
     {
       "id": "base.nocturne-point-of-no-return",
       "questPath": "quests/meta/02_sickness",
+      "objectivePath": "quests/meta/02_sickness/q115/02_meet_hanako",
       "level": "critical",
       "label": "关键节点 · 建议存档",
-      "source": "CDPR Modding Docs journal data; high-confidence quest-level fallback pending narrower objective review"
+      "source": "CDPR journal objective path for Meet Hanako at Embers; endgame point-of-no-return stage"
     },
     {
       "id": "ep1.firestarter-major-branch",
       "questPath": "ep1/quests/main_quest/q304_deal",
+      "objectivePath": "ep1/quests/main_quest/q304_deal/06b_lab/05_decide",
       "level": "critical",
       "label": "关键节点 · 建议存档",
-      "source": "CDPR Modding Docs journal data; high-confidence quest-level fallback pending narrower objective review"
+      "source": "CDPR journal objective path whose description is 'Decide whose side you'll take.'"
     }
   ]
 }

@@ -1,5 +1,14 @@
 module SpoilerFreeQuestHints
 
+public func QOHResolveImpact(journalManager: wref<JournalManager>, entry: wref<JournalEntry>) -> String {
+  if !IsDefined(journalManager) || !IsDefined(entry) {
+    return "";
+  };
+
+  let questPath: String = QOHFindQuestPath(journalManager, entry);
+  return QOHResolveQuestImpactLabel(questPath);
+}
+
 public func QOHResolveLabel(journalManager: wref<JournalManager>, objective: wref<JournalQuestObjective>) -> String {
   if !IsDefined(journalManager) || !IsDefined(objective) {
     return "";

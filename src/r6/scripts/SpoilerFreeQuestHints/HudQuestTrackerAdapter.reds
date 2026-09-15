@@ -4,15 +4,21 @@ module SpoilerFreeQuestHints
 private final func UpdateTrackerData() -> Void {
   wrappedMethod();
 
+  if !IsDefined(this.m_bufferedQuest) || !IsDefined(this.m_journalManager) {
+    return;
+  };
+
+  let impactText: String = QOHResolveImpact(this.m_journalManager, this.m_bufferedQuest);
+  if Equals(impactText, "") {
+    return;
+  };
+
   let currentTitle: String = inkTextRef.GetText(this.m_QuestTitle);
   if Equals(currentTitle, "") {
     return;
   };
 
-  inkTextRef.SetText(
-    this.m_QuestTitle,
-    currentTitle + "  影响：关系 / 后续任务 / 结局条件"
-  );
+  inkTextRef.SetText(this.m_QuestTitle, currentTitle + "  影响：" + impactText);
 }
 
 @wrapMethod(QuestTrackerObjectiveLogicController)
@@ -39,6 +45,12 @@ public final func SetData(
     return;
   };
 
+  let journalManager: ref<JournalManager> = GameInstance.GetJournalManager(this.GetGame());
+  let label: String = QOHResolveLabel(journalManager, objectiveEntry);
+  if Equals(label, "") {
+    return;
+  };
+
   let currentText: String = inkTextRef.GetText(this.m_objectiveTitle);
-  inkTextRef.SetText(this.m_objectiveTitle, currentText + "  [测试] 重要阶段");
+  inkTextRef.SetText(this.m_objectiveTitle, currentText + "  [" + label + "]");
 }

@@ -14,9 +14,19 @@ HEADER = """module SpoilerFreeQuestHints
 // Generated from data/hints.json. Do not edit by hand.
 """
 
+IMPACT_LABELS = {
+    "relationship": "人物关系",
+    "followup": "后续任务",
+    "ending": "结局条件",
+}
+
 
 def reds_string(value: str) -> str:
     return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def impact_label(impacts: list[str]) -> str:
+    return " / ".join(IMPACT_LABELS[impact] for impact in impacts)
 
 
 def generate(input_path: Path) -> str:
@@ -25,20 +35,36 @@ def generate(input_path: Path) -> str:
         raise ValueError("\n".join(errors))
 
     payload = json.loads(input_path.read_text(encoding="utf-8"))
-    exact_rules: list[dict[str, object]] = []
-    fallback_rules: list[dict[str, object]] = []
+    quest_impacts: list[dict[str, object]] = []
+    exact_stage_hints: list[dict[str, object]] = []
+    fallback_stage_hints: list[dict[str, object]] = []
 
-    for rule in payload["rules"]:
+    for rule in payload["questImpacts"]:
+        if rule.get("enabled", True):
+            quest_impacts.append(rule)
+
+    for rule in payload["stageHints"]:
         if not rule.get("enabled", True) or rule["level"] == "none":
             continue
         if "objectivePath" in rule:
-            exact_rules.append(rule)
+            exact_stage_hints.append(rule)
         else:
-            fallback_rules.append(rule)
+            fallback_stage_hints.append(rule)
 
     lines = [HEADER.rstrip(), ""]
+
+    lines.append("public func QOHResolveQuestImpactLabel(questPath: String) -> String {")
+    for rule in quest_impacts:
+        label = impact_label([str(value) for value in rule["impacts"]])
+        lines.append(f'  if Equals(questPath, "{reds_string(str(rule["questPath"]))}") {{')
+        lines.append(f'    return "{reds_string(label)}";')
+        lines.append("  };")
+    lines.append('  return "";')
+    lines.append("}")
+    lines.append("")
+
     lines.append("public func QOHResolveExactObjectiveLabel(objectivePath: String) -> String {")
-    for rule in exact_rules:
+    for rule in exact_stage_hints:
         lines.append(
             f'  if Equals(objectivePath, "{reds_string(str(rule["objectivePath"]))}") {{'
         )
@@ -47,8 +73,9 @@ def generate(input_path: Path) -> str:
     lines.append('  return "";')
     lines.append("}")
     lines.append("")
+
     lines.append("public func QOHResolveQuestFallbackLabel(questPath: String) -> String {")
-    for rule in fallback_rules:
+    for rule in fallback_stage_hints:
         lines.append(f'  if Equals(questPath, "{reds_string(str(rule["questPath"]))}") {{')
         lines.append(f'    return "{reds_string(str(rule["label"]))}";')
         lines.append("  };")

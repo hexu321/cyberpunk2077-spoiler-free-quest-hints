@@ -26,28 +26,30 @@
 
 ## 当前状态
 
-**Milestone 0：项目和数据契约建立中。**
+**Milestone 1：原生 Journal + HUD 技术底座已验证，正在扩充真实规则库。**
 
-已经确定：
+已经完成并在实际游戏环境验证：
 
-- 采用 `Quest -> Phase / Objective` 粒度，而不是只按整条任务打标签。
-- 第一版数据使用显式规则表，不使用 AI 在游戏运行时猜测剧情后果。
-- UI 目标是原生 Journal 集成。
-- QuestGuide 只作为交互方向参考，不复制其源码、资产或打包文件。
+- Journal 左侧任务列表可显示整条任务的 `影响：……` 摘要。
+- Journal 右侧 objective 可按当前 active objective 显示重要性标签。
+- 正常游玩 HUD 的任务标题和 objective 同样支持对应提示。
+- 运行时使用真实 Journal path，不依赖中英文任务标题做匹配。
+- `data/hints.json` 使用两层规则：`questImpacts` 负责总任务影响类型，`stageHints` 负责具体阶段重要性。
+- 规则经 Python 校验并生成 `GeneratedRules.reds`，再由 redscript 编译进游戏。
+- QuestGuide 只作为交互/API 研究参考，不复制其源码、资产或打包文件。
 
-暂未声称完成：
+仍在进行：
 
-- Journal 运行时 Hook。
-- 真实剧情规则数据库。
-- 可安装 release。
-
-这些部分必须先在当前游戏版本上验证实际控制器、Journal entry 路径和刷新时机，避免用猜测的方法名制作“能看不能跑”的 Mod。
+- 扩充并人工复核真实剧情规则数据库。
+- 用对应存档逐条验证 exact objective 规则只在目标阶段显示。
+- 可安装 release / Vortex 打包。
 
 ## 仓库结构
 
 ```text
 data/
-  hints.schema.json      # 规则文件约束
+  hints.json             # 经人工复核的真实规则
+  hints.schema.json      # 两层规则文件约束
   hints.example.json     # 无剧情内容的示例
 
 docs/
@@ -56,11 +58,17 @@ docs/
   research-notes.md      # 已验证资料和待验证问题
 
 tools/
-  validate_hints.py      # 离线规则校验
+  validate_hints.py          # 离线规则校验
+  generate_runtime_rules.py  # JSON -> GeneratedRules.reds
 
 src/
   r6/scripts/SpoilerFreeQuestHints/
-    README.md            # redscript 接入边界；真实 Hook 验证后再落代码
+    GeneratedRules.reds          # 自动生成的运行时规则
+    HintResolver.reds            # 任务影响 / objective 提示解析
+    JournalHintAdapter.reds      # Journal 右侧 objective 提示
+    QuestListImpactAdapter.reds  # Journal 左侧总任务影响
+    HudQuestTrackerAdapter.reds  # 正常游玩 HUD 提示
+    JournalPath.reds             # Journal path 构建与归属 quest 查找
 ```
 
 ## 开发原则

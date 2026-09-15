@@ -11,6 +11,7 @@ EXPECTED_LABELS = {
     "important": "重要阶段",
     "critical": "关键节点 · 建议存档",
 }
+ALLOWED_IMPACTS = {"relationship", "followup", "ending"}
 FORBIDDEN_KEYS = {
     "choice",
     "choiceText",
@@ -24,26 +25,64 @@ FORBIDDEN_KEYS = {
     "romanceResult",
     "characterFate",
 }
-REQUIRED_RULE_KEYS = {"id", "questPath", "level", "label", "source"}
-ALLOWED_RULE_KEYS = REQUIRED_RULE_KEYS | {"objectivePath", "enabled"}
+REQUIRED_IMPACT_KEYS = {"id", "questPath", "impacts", "source"}
+ALLOWED_IMPACT_KEYS = REQUIRED_IMPACT_KEYS | {"enabled"}
+REQUIRED_STAGE_KEYS = {"id", "questPath", "level", "label", "source"}
+ALLOWED_STAGE_KEYS = REQUIRED_STAGE_KEYS | {"objectivePath", "enabled"}
 
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}")
 
 
-def validate_rule(rule: object, index: int, seen_ids: set[str]) -> list[str]:
-    errors: list[str] = []
-    prefix = f"rules[{index}]"
+def validate_id(
+    item: dict[str, object], prefix: str, seen_ids: set[str], errors: list[str]
+) -> None:
+    item_id = item.get("id")
+    if not isinstance(item_id, str) or not item_id.strip():
+        errors.append(f"{prefix}.id must be a non-empty string")
+    elif item_id in seen_ids:
+        errors.append(f"{prefix}.id duplicates an earlier id: {item_id}")
+    else:
+        seen_ids.add(item_id)
 
-    if not isinstance(rule, dict):
+
+def validate_common(
+    item: dict[str, object], prefix: str, seen_ids: set[str], errors: list[str]
+) -> str | None:
+    validate_id(item, prefix, seen_ids, errors)
+
+    quest_path = item.get("questPath")
+    if not isinstance(quest_path, str) or not quest_path.strip():
+        errors.append(f"{prefix}.questPath must be a non-empty string")
+        quest_path = None
+
+    source = item.get("source")
+    if not isinstance(source, str) or not source.strip():
+        errors.append(f"{prefix}.source must be a non-empty maintainer provenance string")
+
+    enabled = item.get("enabled", True)
+    if not isinstance(enabled, bool):
+        errors.append(f"{prefix}.enabled must be boolean when present")
+
+    return quest_path
+
+
+def validate_quest_impact(
+    item: object,
+    index: int,
+    seen_ids: set[str],
+    seen_quest_paths: set[str],
+) -> list[str]:
+    prefix = f"questImpacts[{index}]"
+    if not isinstance(item, dict):
         return [f"{prefix} must be an object"]
 
-    keys = set(rule)
-    missing = REQUIRED_RULE_KEYS - keys
-    extra = keys - ALLOWED_RULE_KEYS
+    errors: list[str] = []
+    keys = set(item)
+    missing = REQUIRED_IMPACT_KEYS - keys
+    extra = keys - ALLOWED_IMPACT_KEYS
     forbidden = keys & FORBIDDEN_KEYS
-
     if missing:
         errors.append(f"{prefix} missing required keys: {sorted(missing)}")
     if extra:
@@ -51,40 +90,75 @@ def validate_rule(rule: object, index: int, seen_ids: set[str]) -> list[str]:
     if forbidden:
         errors.append(f"{prefix} contains spoiler-prone forbidden keys: {sorted(forbidden)}")
 
-    rule_id = rule.get("id")
-    if not isinstance(rule_id, str) or not rule_id.strip():
-        errors.append(f"{prefix}.id must be a non-empty string")
-    elif rule_id in seen_ids:
-        errors.append(f"{prefix}.id duplicates an earlier id: {rule_id}")
+    quest_path = validate_common(item, prefix, seen_ids, errors)
+    if quest_path is not None:
+        if quest_path in seen_quest_paths:
+            errors.append(f"{prefix}.questPath duplicates an earlier quest impact: {quest_path}")
+        else:
+            seen_quest_paths.add(quest_path)
+
+    impacts = item.get("impacts")
+    if not isinstance(impacts, list) or not impacts:
+        errors.append(f"{prefix}.impacts must be a non-empty array")
     else:
-        seen_ids.add(rule_id)
+        invalid = [impact for impact in impacts if impact not in ALLOWED_IMPACTS]
+        if invalid:
+            errors.append(
+                f"{prefix}.impacts contains unsupported values: {sorted(set(map(str, invalid)))}"
+            )
+        if len(impacts) != len(set(map(str, impacts))):
+            errors.append(f"{prefix}.impacts must not contain duplicates")
 
-    quest_path = rule.get("questPath")
-    if not isinstance(quest_path, str) or not quest_path.strip():
-        errors.append(f"{prefix}.questPath must be a non-empty string")
+    return errors
 
-    if "objectivePath" in rule:
-        objective_path = rule.get("objectivePath")
+
+def validate_stage_hint(
+    item: object,
+    index: int,
+    seen_ids: set[str],
+    seen_objective_paths: set[str],
+) -> list[str]:
+    prefix = f"stageHints[{index}]"
+    if not isinstance(item, dict):
+        return [f"{prefix} must be an object"]
+
+    errors: list[str] = []
+    keys = set(item)
+    missing = REQUIRED_STAGE_KEYS - keys
+    extra = keys - ALLOWED_STAGE_KEYS
+    forbidden = keys & FORBIDDEN_KEYS
+    if missing:
+        errors.append(f"{prefix} missing required keys: {sorted(missing)}")
+    if extra:
+        errors.append(f"{prefix} has unsupported keys: {sorted(extra)}")
+    if forbidden:
+        errors.append(f"{prefix} contains spoiler-prone forbidden keys: {sorted(forbidden)}")
+
+    quest_path = validate_common(item, prefix, seen_ids, errors)
+
+    objective_path = item.get("objectivePath")
+    if objective_path is not None:
         if not isinstance(objective_path, str) or not objective_path.strip():
             errors.append(f"{prefix}.objectivePath must be a non-empty string when present")
+        else:
+            if quest_path is not None and not objective_path.startswith(quest_path + "/"):
+                errors.append(f"{prefix}.objectivePath must be inside its questPath")
+            if objective_path in seen_objective_paths:
+                errors.append(
+                    f"{prefix}.objectivePath duplicates an earlier exact stage hint: {objective_path}"
+                )
+            else:
+                seen_objective_paths.add(objective_path)
 
-    level = rule.get("level")
+    level = item.get("level")
     if level not in ALLOWED_LEVELS:
         errors.append(f"{prefix}.level must be one of {sorted(ALLOWED_LEVELS)}")
     else:
-        expected_label = EXPECTED_LABELS[level]
-        if rule.get("label") != expected_label:
+        expected_label = EXPECTED_LABELS[str(level)]
+        if item.get("label") != expected_label:
             errors.append(
                 f"{prefix}.label must be {expected_label!r} when level is {level!r}"
             )
-
-    source = rule.get("source")
-    if not isinstance(source, str) or not source.strip():
-        errors.append(f"{prefix}.source must be a non-empty maintainer provenance string")
-
-    enabled = rule.get("enabled", True)
-    if not isinstance(enabled, bool):
-        errors.append(f"{prefix}.enabled must be boolean when present")
 
     return errors
 
@@ -101,20 +175,31 @@ def validate_document(path: Path) -> list[str]:
         return ["top-level value must be an object"]
 
     errors: list[str] = []
-    if set(payload) - {"schemaVersion", "rules"}:
-        errors.append(f"unsupported top-level keys: {sorted(set(payload) - {'schemaVersion', 'rules'})}")
+    allowed_top_level = {"schemaVersion", "questImpacts", "stageHints"}
+    extra_top_level = set(payload) - allowed_top_level
+    if extra_top_level:
+        errors.append(f"unsupported top-level keys: {sorted(extra_top_level)}")
 
-    if payload.get("schemaVersion") != 1:
-        errors.append("schemaVersion must be 1")
+    if payload.get("schemaVersion") != 2:
+        errors.append("schemaVersion must be 2")
 
-    rules = payload.get("rules")
-    if not isinstance(rules, list):
-        errors.append("rules must be an array")
+    quest_impacts = payload.get("questImpacts")
+    stage_hints = payload.get("stageHints")
+    if not isinstance(quest_impacts, list):
+        errors.append("questImpacts must be an array")
+    if not isinstance(stage_hints, list):
+        errors.append("stageHints must be an array")
+    if errors and (not isinstance(quest_impacts, list) or not isinstance(stage_hints, list)):
         return errors
 
     seen_ids: set[str] = set()
-    for index, rule in enumerate(rules):
-        errors.extend(validate_rule(rule, index, seen_ids))
+    seen_quest_paths: set[str] = set()
+    seen_objective_paths: set[str] = set()
+
+    for index, item in enumerate(quest_impacts):
+        errors.extend(validate_quest_impact(item, index, seen_ids, seen_quest_paths))
+    for index, item in enumerate(stage_hints):
+        errors.extend(validate_stage_hint(item, index, seen_ids, seen_objective_paths))
 
     return errors
 

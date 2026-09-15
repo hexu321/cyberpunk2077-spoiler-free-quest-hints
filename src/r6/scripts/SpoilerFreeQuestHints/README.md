@@ -1,25 +1,36 @@
 # Runtime implementation boundary
 
-This directory is reserved for the tested redscript runtime implementation.
+This directory contains the tested redscript runtime implementation.
 
-Do not add guessed Journal controller method names here.
+Runtime responsibilities are intentionally split:
 
-The first runtime implementation must provide three isolated responsibilities:
+1. `JournalPath.reds`
+   - builds stable Journal paths from live entries;
+   - walks parents to find the owning `JournalQuest`.
 
-1. `JournalSelectionAdapter`
-   - reads the selected quest and current objective from the actual Journal menu;
-   - listens to the smallest verified refresh hook;
-   - exposes stable Journal paths/identity to the resolver.
+2. `GeneratedRules.reds`
+   - generated from `data/hints.json`;
+   - contains no widget/controller knowledge;
+   - resolves quest impact labels and stage labels by stable Journal path.
 
-2. `HintResolver`
+3. `HintResolver.reds`
+   - resolves broad quest impacts separately from stage importance;
    - exact objective match first;
-   - optional quest fallback second;
-   - returns only `none`, `notice`, `important`, or `critical` plus the fixed label.
+   - optional stage fallback second;
+   - ignores non-active objectives.
 
-3. `JournalHintView`
-   - owns one read-only ink text/badge element;
-   - never takes controller focus;
-   - hides for `none`;
-   - updates/removes itself when selection or objective changes.
+4. `QuestListImpactAdapter.reds`
+   - wraps the native Journal quest list item;
+   - appends `影响：...` only when a quest impact rule exists;
+   - leaves the original gray objective summary untouched.
 
-The UI adapter must not contain story classifications. The rules database must not contain widget/controller knowledge.
+5. `JournalHintAdapter.reds`
+   - wraps the native Journal details objective controller;
+   - appends a stage label only when the current active objective matches a rule.
+
+6. `HudQuestTrackerAdapter.reds`
+   - mirrors the same quest-impact and stage-hint behavior in the normal gameplay quest tracker.
+
+The UI adapters must not contain story classifications. The rules database must not contain widget/controller knowledge.
+
+QuestGuide source may be inspected locally as an API/architecture reference, but its source and assets are not copied into this project.

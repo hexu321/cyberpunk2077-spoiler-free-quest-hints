@@ -2,11 +2,12 @@
 
 ## 1. Product behavior
 
-The runtime should answer only one question:
+The runtime answers two spoiler-safe questions:
 
-> For the quest/objective that the player is looking at right now, should the UI show a spoiler-free importance hint?
+1. For the current quest, what broad impact categories are known (`人物关系 / 后续任务 / 结局条件`)?
+2. For the current active objective, should the UI show an importance hint?
 
-It must not answer what the consequence is or which choice is preferred.
+It must not answer what the concrete consequence is or which choice is preferred.
 
 ## 2. Runtime data flow
 
@@ -16,18 +17,18 @@ Game Journal runtime state
         v
 Current quest + current active objective
         |
-        v
-Rule resolver
-  exact objective rule
+        +--> Quest impact resolver --> 人物关系 / 后续任务 / 结局条件
         |
-        +--> optional quest-level fallback
+        +--> Stage hint resolver
+               exact objective rule
+                    |
+                    +--> optional quest-level fallback
+                    |
+                    v
+               none / notice / important / critical
         |
         v
-Spoiler-safe presentation model
-  none / notice / important / critical
-        |
-        v
-Native Journal UI adapter
+Native Journal + HUD adapters
 ```
 
 The resolver and the UI adapter are intentionally separate. A future game patch may rename or restructure UI controllers without invalidating the rules database.
@@ -36,11 +37,24 @@ The resolver and the UI adapter are intentionally separate. A future game patch 
 
 A rule should prefer stable Journal identity rather than localized display strings.
 
-Target shape:
+The source data is split into two rule families.
+
+Quest-level impact example:
 
 ```json
 {
-  "id": "unique-rule-id",
+  "id": "unique-impact-id",
+  "questPath": "stable journal quest path",
+  "impacts": ["relationship", "followup"],
+  "source": "human-reviewed provenance note"
+}
+```
+
+Objective-level stage hint example:
+
+```json
+{
+  "id": "unique-stage-id",
   "questPath": "stable journal quest path",
   "objectivePath": "stable journal objective path",
   "level": "important",
@@ -49,7 +63,7 @@ Target shape:
 }
 ```
 
-`objectivePath` may be omitted only for an explicitly documented quest-level fallback. Exact objective matches always win over fallback rules.
+`objectivePath` may be omitted only for an explicitly documented stage fallback. Exact objective matches always win over fallback stage rules. A quest impact rule never automatically makes every objective important.
 
 Do not key rules by the Chinese or English quest title: localization and display text are presentation, not identity.
 
@@ -66,13 +80,19 @@ The core requirement is that a hint for objective A must disappear when the play
 
 ## 5. UI target
 
-Preferred target:
+Verified targets:
 
 ```text
-JOURNAL
-  Quest title
-  Description / objective detail
-  [small importance badge here]
+JOURNAL LIST
+  Quest title  影响：人物关系 / 后续任务
+  Original gray objective summary
+
+JOURNAL DETAILS
+  Current objective  [重要阶段]
+
+GAMEPLAY HUD
+  Quest title  影响：人物关系 / 后续任务
+  Current objective  [重要阶段]
 ```
 
 Presentation requirements:
@@ -107,12 +127,13 @@ The source rules live under `data/` and are validated before they are transforme
 A rule can ship only when all are true:
 
 1. Journal identity is verified against the target game version.
-2. The rule is tied to the narrowest useful objective/phase.
-3. The displayed label contains no consequence information.
-4. The source note is sufficient for a maintainer to re-check the classification.
-5. A save-state test confirms the badge appears only while the intended stage is current.
+2. A quest impact uses only the approved broad categories and does not reveal the concrete outcome.
+3. A stage hint is tied to the narrowest useful objective/phase whenever possible.
+4. The displayed label contains no consequence information.
+5. The source note is sufficient for a maintainer to re-check the classification.
+6. A save-state test confirms exact stage badges appear only while the intended objective is current.
 
-A `critical` rule additionally requires manual review by a second pass before release.
+A `critical` stage rule additionally requires manual review by a second pass before release.
 
 ## 9. Compatibility strategy
 

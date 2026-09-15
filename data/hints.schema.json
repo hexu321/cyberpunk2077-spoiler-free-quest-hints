@@ -4,21 +4,60 @@
   "title": "Spoiler-Free Quest Hint Rules",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "rules"],
+  "required": ["schemaVersion", "questImpacts", "stageHints"],
   "properties": {
     "schemaVersion": {
       "type": "integer",
-      "const": 1
+      "const": 2
     },
-    "rules": {
+    "questImpacts": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/rule"
+        "$ref": "#/$defs/questImpact"
+      }
+    },
+    "stageHints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stageHint"
       }
     }
   },
   "$defs": {
-    "rule": {
+    "questImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "questPath", "impacts", "source"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "questPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["relationship", "followup", "ending"]
+          }
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Maintainer-only provenance; never render directly in game."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "stageHint": {
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "questPath", "level", "label", "source"],
