@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "base.nocturne-point-of-no-return",
+      "questPath": "quests/meta/02_sickness",
+      "level": "critical",
+      "label": "关键节点 · 建议存档",
+      "source": "CDPR Modding Docs journal data; high-confidence quest-level fallback pending narrower objective review"
+    },
+    {
+      "id": "ep1.firestarter-major-branch",
+      "questPath": "ep1/quests/main_quest/q304_deal",
+      "level": "critical",
+      "label": "关键节点 · 建议存档",
+      "source": "CDPR Modding Docs journal data; high-confidence quest-level fallback pending narrower objective review"
+    }
+  ]
+}
