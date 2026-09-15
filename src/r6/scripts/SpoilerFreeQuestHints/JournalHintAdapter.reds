@@ -10,10 +10,11 @@ public final func Setup(
 ) -> Void {
   wrappedMethod(objective, journalManager, currentCounter, totalCounter, isTracked);
 
-  if NotEquals(journalManager.GetEntryState(objective), gameJournalEntryState.Active) {
+  let label: String = QOHResolveLabel(journalManager, objective);
+  if Equals(label, "") {
     return;
   };
 
   let currentText: String = inkTextRef.GetText(this.m_objectiveName);
-  inkTextRef.SetText(this.m_objectiveName, currentText + "  [测试] 重要阶段");
+  inkTextRef.SetText(this.m_objectiveName, currentText + "  [" + label + "]");
 }

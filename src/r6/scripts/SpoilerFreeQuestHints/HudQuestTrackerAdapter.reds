@@ -4,41 +4,43 @@ module SpoilerFreeQuestHints
 private final func UpdateTrackerData() -> Void {
   wrappedMethod();
 
-  let currentTitle: String = inkTextRef.GetText(this.m_QuestTitle);
-  if Equals(currentTitle, "") {
+  if !IsDefined(this.m_journalManager) {
     return;
   };
 
-  inkTextRef.SetText(
-    this.m_QuestTitle,
-    currentTitle + "  影响：关系 / 后续任务 / 结局条件"
-  );
+  if IsDefined(this.m_bufferedQuest) {
+    let impactText: String = QOHResolveImpact(this.m_journalManager, this.m_bufferedQuest);
+    if NotEquals(impactText, "") {
+      let currentTitle: String = inkTextRef.GetText(this.m_QuestTitle);
+      if NotEquals(currentTitle, "") {
+        inkTextRef.SetText(this.m_QuestTitle, currentTitle + "  影响：" + impactText);
+      };
+    };
+  };
+
+  let i: Int32 = 0;
+  while i < inkCompoundRef.GetNumChildren(this.m_ObjectiveContainer) {
+    let controller: wref<QuestTrackerObjectiveLogicController> =
+      inkCompoundRef.GetWidgetByIndex(this.m_ObjectiveContainer, i).GetController() as QuestTrackerObjectiveLogicController;
+    if IsDefined(controller) {
+      controller.QOHApplyHint(this.m_journalManager);
+    };
+    i += 1;
+  };
 }
 
-@wrapMethod(QuestTrackerObjectiveLogicController)
-public final func SetData(
-  const objectiveTitle: script_ref<String>,
-  isTracked: Bool,
-  isOptional: Bool,
-  currentCounter: Int32,
-  totalCounter: Int32,
-  objectiveEntry: wref<JournalQuestObjective>,
-  isQuestType: Bool
-) -> Void {
-  wrappedMethod(
-    objectiveTitle,
-    isTracked,
-    isOptional,
-    currentCounter,
-    totalCounter,
-    objectiveEntry,
-    isQuestType
-  );
-
+@addMethod(QuestTrackerObjectiveLogicController)
+public final func QOHApplyHint(journalManager: wref<JournalManager>) -> Void {
+  let objectiveEntry: wref<JournalQuestObjective> = this.GetObjectiveEntry();
   if !IsDefined(objectiveEntry) {
     return;
   };
 
+  let label: String = QOHResolveLabel(journalManager, objectiveEntry);
+  if Equals(label, "") {
+    return;
+  };
+
   let currentText: String = inkTextRef.GetText(this.m_objectiveTitle);
-  inkTextRef.SetText(this.m_objectiveTitle, currentText + "  [测试] 重要阶段");
+  inkTextRef.SetText(this.m_objectiveTitle, currentText + "  [" + label + "]");
 }
