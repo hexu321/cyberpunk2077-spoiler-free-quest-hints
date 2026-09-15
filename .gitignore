@@ -3,3 +3,6 @@ __pycache__/
 .dist/
 dist/
 .tmp/
+
+# Local third-party reference sources; never publish or vendor them.
+references/QuestGuide-*/
