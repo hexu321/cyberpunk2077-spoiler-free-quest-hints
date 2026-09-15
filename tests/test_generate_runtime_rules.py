@@ -44,7 +44,7 @@ class GenerateRuntimeRulesTests(unittest.TestCase):
         )
 
         output = generate(path)
-        self.assertIn('Equals(questPath, "quests/example")', output)
+        self.assertIn('QOHPathMatches(questPath, "quests/example")', output)
         self.assertIn('return "人物关系 / 后续任务 / 结局条件";', output)
 
     def test_exact_stage_and_fallback_have_separate_lookup_functions(self) -> None:
@@ -70,7 +70,7 @@ class GenerateRuntimeRulesTests(unittest.TestCase):
         )
 
         output = generate(path)
-        exact_position = output.index('Equals(objectivePath, "quests/example/phase/objective")')
+        exact_position = output.index('QOHPathMatches(objectivePath, "quests/example/phase/objective")')
         fallback_function = output.index("public func QOHResolveQuestFallbackLabel")
         self.assertLess(exact_position, fallback_function)
         self.assertIn('return "关键节点 · 建议存档";', output)

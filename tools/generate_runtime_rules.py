@@ -56,7 +56,7 @@ def generate(input_path: Path) -> str:
     lines.append("public func QOHResolveQuestImpactLabel(questPath: String) -> String {")
     for rule in quest_impacts:
         label = impact_label([str(value) for value in rule["impacts"]])
-        lines.append(f'  if Equals(questPath, "{reds_string(str(rule["questPath"]))}") {{')
+        lines.append(f'  if QOHPathMatches(questPath, "{reds_string(str(rule["questPath"]))}") {{')
         lines.append(f'    return "{reds_string(label)}";')
         lines.append("  };")
     lines.append('  return "";')
@@ -66,7 +66,7 @@ def generate(input_path: Path) -> str:
     lines.append("public func QOHResolveExactObjectiveLabel(objectivePath: String) -> String {")
     for rule in exact_stage_hints:
         lines.append(
-            f'  if Equals(objectivePath, "{reds_string(str(rule["objectivePath"]))}") {{'
+            f'  if QOHPathMatches(objectivePath, "{reds_string(str(rule["objectivePath"]))}") {{'
         )
         lines.append(f'    return "{reds_string(str(rule["label"]))}";')
         lines.append("  };")
@@ -76,7 +76,7 @@ def generate(input_path: Path) -> str:
 
     lines.append("public func QOHResolveQuestFallbackLabel(questPath: String) -> String {")
     for rule in fallback_stage_hints:
-        lines.append(f'  if Equals(questPath, "{reds_string(str(rule["questPath"]))}") {{')
+        lines.append(f'  if QOHPathMatches(questPath, "{reds_string(str(rule["questPath"]))}") {{')
         lines.append(f'    return "{reds_string(str(rule["label"]))}";')
         lines.append("  };")
     lines.append('  return "";')

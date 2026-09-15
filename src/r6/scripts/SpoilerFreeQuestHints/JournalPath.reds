@@ -1,5 +1,13 @@
 module SpoilerFreeQuestHints
 
+public func QOHPathMatches(actualPath: String, canonicalPath: String) -> Bool {
+  if Equals(actualPath, canonicalPath) {
+    return true;
+  };
+
+  return StrEndsWith(actualPath, "/" + canonicalPath);
+}
+
 public func QOHBuildEntryPath(journalManager: wref<JournalManager>, entry: wref<JournalEntry>) -> String {
   if !IsDefined(journalManager) || !IsDefined(entry) {
     return "";
