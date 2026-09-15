@@ -40,6 +40,10 @@ class ValidateStageCandidatesTests(unittest.TestCase):
     def test_valid_stage_candidate_passes(self) -> None:
         self.assertEqual(validate_stage_candidates(self.write_lines([self.valid_item()])), [])
 
+    def test_source_verified_status_is_accepted(self) -> None:
+        item = self.valid_item() | {"status": "source-verified"}
+        self.assertEqual(validate_stage_candidates(self.write_lines([item])), [])
+
     def test_duplicate_objective_path_is_rejected(self) -> None:
         first = self.valid_item()
         second = self.valid_item() | {"id": "stage.test.2"}

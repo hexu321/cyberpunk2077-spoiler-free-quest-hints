@@ -12,7 +12,8 @@ research/
 │  └─ TEMPLATE.md
 └─ sources/
    ├─ questguide-1.5.0-seed.json     # 从本地 QuestGuide 1.5.0 归一化出的种子集合
-   └─ redmodding-quest-roots.json    # 已确认的官方 questPath / title 根信息
+   ├─ redmodding-quest-roots.json    # 已确认的官方 questPath / title 根信息
+   └─ source-policy.md               # 剧情影响来源、证据门槛与误报控制
 ```
 
 正式进入游戏的规则仍然只来自：
@@ -25,12 +26,12 @@ data/hints.json
 
 ## 候选状态
 
-按下面的顺序推进：
+默认按下面的顺序推进：
 
 ```text
 candidate
+  -> source-verified
   -> journal-located
-  -> logic-verified
   -> in-game-verified
   -> ready
   -> shipped
@@ -38,21 +39,22 @@ candidate
 
 含义：
 
-- `candidate`：已有可信来源认为值得调查，但尚未定位到具体 Journal 阶段。
-- `journal-located`：已经确认 questPath / phase / objectivePath。
-- `logic-verified`：已经从游戏逻辑、quest fact、scene / questphase 或等价证据确认存在后续影响。
-- `in-game-verified`：已通过真实存档/游戏内行为确认提示时机正确。
+- `candidate`：已有线索认为值得调查，但还没有达到入库证据标准。
+- `source-verified`：至少一个高质量、系统性资料明确说明该任务/选择会造成 `relationship` / `followup` / `ending` 之一的持续影响。官方资料有明确说明时优先使用；官方没有完整选择后果表时，可使用长期维护且明确覆盖 lasting consequences 的成熟攻略/Wiki。
+- `journal-located`：已经用 CDPR / REDmodding Journal 数据确认稳定的 questPath / phase / objectivePath，可把提醒挂到具体游戏阶段。
+- `in-game-verified`：已在真实游戏里确认提示出现位置和时机正确；不要求为了入库再做 A/B 剧情实验。
 - `ready`：证据足够，可进入 `data/hints.json`。
 - `shipped`：已经随正式规则发布。
+- `logic-verified`：保留给过去已经完成的 `.scene` / `.questphase` / Quest Fact 级验证，属于比 `source-verified` 更强的可选附加证据，**不再是新规则的必经门槛**。
 
 ## 数据源优先级
 
-1. **游戏真实资源**：`.quest` / `.questphase` / `.scene` / Quest Facts。用于确认因果链。
-2. **已验证的游戏资源提取结果**：例如 RedSync 从 `basegame_4_gamedata.archive` 解出的 quest/questphase fact 索引。它可以证明某个状态被任务图引用，但在没有 node 类型时不能单独证明 Set/Condition 方向。
-3. **CDPR / REDmodding Journal 数据**：用于定位稳定的 quest / phase / objective 内部路径。
-4. **本地 QuestGuide 1.5.0**：作为人工筛过的高价值候选种子，不作为最终唯一事实来源。
-5. **成熟 Wiki / Walkthrough**：用于发现候选和交叉验证。
-6. **游戏内 A/B 存档测试**：最终验收，尤其是 `critical` 规则。
+1. **CDPR / 官方第一方说明**：只要明确说明某个选择影响关系、后续内容或结局，就直接作为高优先级剧情证据。
+2. **系统性成熟攻略 / Wiki**：用于覆盖官方没有提供完整选择后果表的部分。优先选择明确区分“长期影响”和“仅改变一句对白”的资料；基础游戏目前以 PowerPyx Story Choices / Romance / Endings 系列作为主要筛选源之一。
+3. **CDPR / REDmodding Journal 数据**：负责确认 quest ID、questPath、phase、objectivePath 和 objective 描述；它负责“挂在哪里”，不负责单独判断剧情后果。
+4. **本地 QuestGuide 1.5.0**：作为人工筛过的高价值候选种子，不作为唯一事实来源。
+5. **游戏内实际触发**：最终检查提示是否出现在正确阶段、是否过早/过晚。
+6. **游戏真实资源 / Quest Fact**：仅在来源互相矛盾、objective 无法准确定位或需要排疑时使用，不再作为常规入库要求。
 
 ## QuestGuide 使用边界
 

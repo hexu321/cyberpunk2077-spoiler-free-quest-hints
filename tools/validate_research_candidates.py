@@ -6,6 +6,7 @@ from pathlib import Path
 
 ALLOWED_STATUSES = {
     "candidate",
+    "source-verified",
     "journal-located",
     "logic-verified",
     "in-game-verified",

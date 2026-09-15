@@ -42,6 +42,11 @@ class ValidateResearchCandidatesTests(unittest.TestCase):
     def test_valid_candidate_passes(self) -> None:
         self.assertEqual(validate_candidates(self.write_lines([self.valid_entry()])), [])
 
+    def test_source_verified_status_is_accepted(self) -> None:
+        entry = self.valid_entry()
+        entry["status"] = "source-verified"
+        self.assertEqual(validate_candidates(self.write_lines([entry])), [])
+
     def test_duplicate_quest_id_is_rejected(self) -> None:
         first = self.valid_entry()
         second = self.valid_entry()
