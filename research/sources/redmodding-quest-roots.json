@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "REDmodding Reference: Quest Ids",
+    "url": "https://wiki.redmodding.org/cyberpunk-2077-modding/for-mod-creators-theory/references-lists-and-overviews/reference-quest-ids",
+    "sourceLastUpdated": "2025-08-20",
+    "usage": "journal-root-identity"
+  },
+  "entries": [
+    {"questId":"02_sickness","questPath":"quests/meta/02_sickness","title":"Nocturne Op55N1"},
+    {"questId":"sq004_riders_on_the_storm","questPath":"quests/side_quest/sq004_riders_on_the_storm","title":"Riders on the Storm"},
+    {"questId":"sq031_rogue","questPath":"quests/side_quest/sq031_rogue","title":"Chippin' In"},
+    {"questId":"sq031_smack_my_bitch_up","questPath":"quests/side_quest/sq031_smack_my_bitch_up","title":"A Cool Metal Fire"},
+    {"questId":"sq031_cinema","questPath":"quests/side_quest/sq031_cinema","title":"Blistering Love"},
+    {"questId":"sq030_judy_romance","questPath":"quests/side_quest/sq030_judy_romance","title":"Pyramid Song"},
+    {"questId":"sq029_sobchak_romance","questPath":"quests/side_quest/sq029_sobchak_romance","title":"Following the River"},
+    {"questId":"sq021_sick_dreams","questPath":"quests/side_quest/sq021_sick_dreams","title":"The Hunt"},
+    {"questId":"sq028_kerry_romance","questPath":"quests/side_quest/sq028_kerry_romance","title":"Boat Drinks"},
+    {"questId":"sq011_kerry","questPath":"quests/side_quest/sq011_kerry","title":"Holdin' On"},
+    {"questId":"sq017_kerry","questPath":"quests/side_quest/sq017_kerry","title":"Rebel! Rebel!"},
+    {"questId":"sq011_concert","questPath":"quests/side_quest/sq011_concert","title":"A Like Supreme"},
+    {"questId":"sq011_johnny","questPath":"quests/side_quest/sq011_johnny","title":"Second Conflict"},
+    {"questId":"sq017_02_lounge","questPath":"quests/side_quest/sq017_02_lounge","title":"Off the Leash"}
+  ]
+}
