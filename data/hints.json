@@ -4,6 +4,7 @@
     {"id":"base.nocturne-ending","questPath":"quests/meta/02_sickness","impacts":["ending"],"source":"research/candidates.jsonl"},
     {"id":"research.qg.sq004_riders_on_the_storm","questPath":"quests/side_quest/sq004_riders_on_the_storm","impacts":["relationship","followup","ending"],"source":"research/candidates.jsonl"},
     {"id":"research.qg.sq031_rogue","questPath":"quests/side_quest/sq031_rogue","impacts":["followup","ending"],"source":"research/candidates.jsonl"},
+    {"id":"research.qg.sq031_cinema","questPath":"quests/side_quest/sq031_cinema","impacts":["followup","ending"],"source":"research/candidates.jsonl"},
     {"id":"research.qg.sq030_judy_romance","questPath":"quests/side_quest/sq030_judy_romance","impacts":["relationship","ending"],"source":"research/candidates.jsonl"},
     {"id":"research.qg.sq029_sobchak_romance","questPath":"quests/side_quest/sq029_sobchak_romance","impacts":["relationship","ending"],"source":"research/candidates.jsonl"},
     {"id":"research.qg.sq021_sick_dreams","questPath":"quests/side_quest/sq021_sick_dreams","impacts":["relationship","followup","ending"],"source":"research/candidates.jsonl"},
@@ -16,7 +17,9 @@
     {"id":"research.game.sq017_01_riot_club","questPath":"quests/side_quest/sq017_01_riot_club","impacts":["followup"],"source":"research/candidates.jsonl"},
     {"id":"research.source.q003_maelstrom","questPath":"quests/main_quest/prologue/q003_maelstrom","impacts":["relationship","followup"],"source":"research/candidates.jsonl"},
     {"id":"research.source.q005_heist","questPath":"quests/main_quest/prologue/q005_heist","impacts":["followup","ending"],"source":"research/candidates.jsonl"},
+    {"id":"research.source.q103_warhead","questPath":"quests/main_quest/act_01/q103_warhead","impacts":["relationship"],"source":"research/candidates.jsonl"},
     {"id":"research.source.q110_voodoo","questPath":"quests/main_quest/act_01/q110_voodoo","impacts":["followup"],"source":"research/candidates.jsonl"},
+    {"id":"research.source.q112_02_industrial_park","questPath":"quests/main_quest/act_01/q112_02_industrial_park","impacts":["relationship"],"source":"research/candidates.jsonl"},
     {"id":"research.source.q112_04_hideout","questPath":"quests/main_quest/act_01/q112_04_hideout","impacts":["ending"],"source":"research/candidates.jsonl"},
     {"id":"research.source.sq026_04_hiromi","questPath":"quests/side_quest/sq026_04_hiromi","impacts":["relationship","followup"],"source":"research/candidates.jsonl"},
     {"id":"research.source.sq027_01_basilisk_convoy","questPath":"quests/side_quest/sq027_01_basilisk_convoy","impacts":["relationship","followup","ending"],"source":"research/candidates.jsonl"},
@@ -37,6 +40,7 @@
     {"id":"research.source.sq026_03_pizza","questPath":"quests/side_quest/sq026_03_pizza","impacts":["followup"],"source":"research/candidates.jsonl"},
     {"id":"research.source.q116_cyberspace","questPath":"quests/main_quest/act_01/q116_cyberspace","impacts":["ending"],"source":"research/candidates.jsonl"},
     {"id":"research.source.mq040_biosculpt","questPath":"quests/minor_quest/mq040_biosculpt","impacts":["relationship"],"source":"research/candidates.jsonl"},
+    {"id":"research.source.sq006_dream_on","questPath":"quests/side_quest/sq006_dream_on","impacts":["relationship"],"source":"research/candidates.jsonl"},
     {"id":"research.source.ep1.q307_before_tomorrow","questPath":"ep1/quests/main_quest/q307_before_tomorrow","impacts":["ending"],"source":"research/candidates.jsonl"}
   ],
   "stageHints": [
@@ -54,7 +58,10 @@
     {"id":"research.stage.sq028_kerry_romance.help","questPath":"quests/side_quest/sq028_kerry_romance","objectivePath":"quests/side_quest/sq028_kerry_romance/cruiser/help_kerry","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.sq028_kerry_romance.final-talk","questPath":"quests/side_quest/sq028_kerry_romance","objectivePath":"quests/side_quest/sq028_kerry_romance/cruiser/talk_kerry3","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.sq017_01_riot_club.us-cracks","questPath":"quests/side_quest/sq017_01_riot_club","objectivePath":"quests/side_quest/sq017_01_riot_club/nightclub/talk_us_cracks","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
+    {"id":"research.stage.q103_warhead.nash","questPath":"quests/main_quest/act_01/q103_warhead","objectivePath":"quests/main_quest/act_01/q103_warhead/ghost_town/switch_seats","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
+    {"id":"research.stage.q103_warhead.bar","questPath":"quests/main_quest/act_01/q103_warhead","objectivePath":"quests/main_quest/act_01/q103_warhead/roadhouse/sit_stool","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.q110_voodoo.netwatch-agent","questPath":"quests/main_quest/act_01/q110_voodoo","objectivePath":"quests/main_quest/act_01/q110_voodoo/03_mall_job/05_find_netwatch_agent","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
+    {"id":"research.stage.q112_02_industrial_park.recon","questPath":"quests/main_quest/act_01/q112_02_industrial_park","objectivePath":"quests/main_quest/act_01/q112_02_industrial_park/01_market/01c_sit_down","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.q112_04_hideout.save","questPath":"quests/main_quest/act_01/q112_04_hideout","objectivePath":"quests/main_quest/act_01/q112_04_hideout/06_safe_house/06i_save","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.sq026_04_hiromi.bosses","questPath":"quests/side_quest/sq026_04_hiromi","objectivePath":"quests/side_quest/sq026_04_hiromi/02_penthouse/hiromi","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.sq026_04_hiromi.maiko","questPath":"quests/side_quest/sq026_04_hiromi","objectivePath":"quests/side_quest/sq026_04_hiromi/02_penthouse/talk_maiko","level":"important","label":"重要阶段","source":"research/stage-candidates.jsonl"},
@@ -88,6 +95,7 @@
     {"id":"research.stage.sq026_03_pizza.commit","questPath":"quests/side_quest/sq026_03_pizza","objectivePath":"quests/side_quest/sq026_03_pizza/01_pizza_night/sparing","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.q116_cyberspace.decide","questPath":"quests/main_quest/act_01/q116_cyberspace","objectivePath":"quests/main_quest/act_01/q116_cyberspace/01_cyberspace/03_choose","level":"critical","label":"关键节点 · 建议存档","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.mq040_biosculpt.pepe","questPath":"quests/minor_quest/mq040_biosculpt","objectivePath":"quests/minor_quest/mq040_biosculpt/mq040_biosculpt/09_choose_side","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
+    {"id":"research.stage.sq006_dream_on.jefferson","questPath":"quests/side_quest/sq006_dream_on","objectivePath":"quests/side_quest/sq006_dream_on/conclusion/sq006_speak_to_jefferson","level":"notice","label":"值得留意","source":"research/stage-candidates.jsonl"},
     {"id":"research.stage.ep1.q307_before_tomorrow.surgery","questPath":"ep1/quests/main_quest/q307_before_tomorrow","objectivePath":"ep1/quests/main_quest/q307_before_tomorrow/00_hook/02_confirm_pickup","level":"critical","label":"关键节点 · 建议存档","source":"research/stage-candidates.jsonl"}
   ]
 }

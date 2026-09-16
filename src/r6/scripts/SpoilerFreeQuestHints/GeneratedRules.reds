@@ -12,6 +12,9 @@ public func QOHResolveQuestImpactLabel(questPath: String) -> String {
   if QOHPathMatches(questPath, "quests/side_quest/sq031_rogue") {
     return "后续任务 / 结局条件";
   };
+  if QOHPathMatches(questPath, "quests/side_quest/sq031_cinema") {
+    return "后续任务 / 结局条件";
+  };
   if QOHPathMatches(questPath, "quests/side_quest/sq030_judy_romance") {
     return "人物关系 / 结局条件";
   };
@@ -48,8 +51,14 @@ public func QOHResolveQuestImpactLabel(questPath: String) -> String {
   if QOHPathMatches(questPath, "quests/main_quest/prologue/q005_heist") {
     return "后续任务 / 结局条件";
   };
+  if QOHPathMatches(questPath, "quests/main_quest/act_01/q103_warhead") {
+    return "人物关系";
+  };
   if QOHPathMatches(questPath, "quests/main_quest/act_01/q110_voodoo") {
     return "后续任务";
+  };
+  if QOHPathMatches(questPath, "quests/main_quest/act_01/q112_02_industrial_park") {
+    return "人物关系";
   };
   if QOHPathMatches(questPath, "quests/main_quest/act_01/q112_04_hideout") {
     return "结局条件";
@@ -111,6 +120,9 @@ public func QOHResolveQuestImpactLabel(questPath: String) -> String {
   if QOHPathMatches(questPath, "quests/minor_quest/mq040_biosculpt") {
     return "人物关系";
   };
+  if QOHPathMatches(questPath, "quests/side_quest/sq006_dream_on") {
+    return "人物关系";
+  };
   if QOHPathMatches(questPath, "ep1/quests/main_quest/q307_before_tomorrow") {
     return "结局条件";
   };
@@ -160,8 +172,17 @@ public func QOHResolveExactObjectiveLabel(objectivePath: String) -> String {
   if QOHPathMatches(objectivePath, "quests/side_quest/sq017_01_riot_club/nightclub/talk_us_cracks") {
     return "重要阶段";
   };
+  if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q103_warhead/ghost_town/switch_seats") {
+    return "值得留意";
+  };
+  if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q103_warhead/roadhouse/sit_stool") {
+    return "值得留意";
+  };
   if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q110_voodoo/03_mall_job/05_find_netwatch_agent") {
     return "重要阶段";
+  };
+  if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q112_02_industrial_park/01_market/01c_sit_down") {
+    return "值得留意";
   };
   if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q112_04_hideout/06_safe_house/06i_save") {
     return "重要阶段";
@@ -260,6 +281,9 @@ public func QOHResolveExactObjectiveLabel(objectivePath: String) -> String {
     return "关键节点 · 建议存档";
   };
   if QOHPathMatches(objectivePath, "quests/minor_quest/mq040_biosculpt/mq040_biosculpt/09_choose_side") {
+    return "值得留意";
+  };
+  if QOHPathMatches(objectivePath, "quests/side_quest/sq006_dream_on/conclusion/sq006_speak_to_jefferson") {
     return "值得留意";
   };
   if QOHPathMatches(objectivePath, "ep1/quests/main_quest/q307_before_tomorrow/00_hook/02_confirm_pickup") {
