@@ -153,6 +153,8 @@ UI 只会针对玩家已经到达的剧情内容，显示其重要性等级。
 
 完整规则见 [`docs/spoiler-policy.md`](docs/spoiler-policy.md)。
 
+任务规则的新增、修改、生成、实机验证与发布流程见 [`docs/quest-rule-maintenance.zh-CN.md`](docs/quest-rule-maintenance.zh-CN.md)。
+
 ## 当前开发状态
 
 `v0.1.0-beta.2` 扩充了已复核规则的运行时 UI 覆盖，并修复了首个公开 Beta 中发现的“研究库已确认但未晋升到 UI”的遗漏。

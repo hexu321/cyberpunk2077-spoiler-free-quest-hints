@@ -153,6 +153,8 @@ The UI only exposes the importance level for story content the player has alread
 
 See [`docs/spoiler-policy.md`](docs/spoiler-policy.md) for the project policy.
 
+For adding or modifying quest-level and objective-level rules, see [`docs/quest-rule-maintenance.zh-CN.md`](docs/quest-rule-maintenance.zh-CN.md) (Chinese maintainer guide).
+
 ## Development status
 
 `v0.1.0-beta.2` expands reviewed runtime rule coverage and fixes research-to-UI promotion gaps found after the first public beta.
