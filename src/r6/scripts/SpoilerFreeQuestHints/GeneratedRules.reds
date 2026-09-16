@@ -181,7 +181,7 @@ public func QOHResolveExactObjectiveLabel(objectivePath: String) -> String {
   if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q110_voodoo/03_mall_job/05_find_netwatch_agent") {
     return "重要阶段";
   };
-  if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q112_02_industrial_park/01_market/01c_sit_down") {
+  if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q112_02_industrial_park/01_market/01a_meet_takemura1") {
     return "值得留意";
   };
   if QOHPathMatches(objectivePath, "quests/main_quest/act_01/q112_04_hideout/06_safe_house/06i_save") {

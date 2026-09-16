@@ -189,6 +189,20 @@ python -m unittest discover -s tests -v
 
 不能只知道“某句对话有影响”，却把提示挂在错误的上一阶段或下一阶段。
 
+如果玩家当前正停在目标界面，优先用真实存档里的 `metadata.9.json` 反查当前追踪目标。字段：
+
+```text
+trackedQuestEntry
+```
+
+它会直接给出当前正在追踪的 Journal objective path。例如这次《危险游戏》实机截图右侧显示“和竹村核对一下计划。”，同期自动存档记录为：
+
+```text
+quests/main_quest/act_01/q112_02_industrial_park/01_market/01a_meet_takemura1
+```
+
+因此应优先把规则挂到这个**玩家真实可见且正在追踪的 objective**，而不是只根据攻略顺序猜前一个内部节点。
+
 ### 第二步：选择提示等级
 
 当前等级：
@@ -298,11 +312,15 @@ python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFre
 
 > “是否陪竹村侦察”会产生人物关系差异。
 
-但如果实际玩家看到的选择发生在另一个 objective，而规则却挂在：
+这次《危险游戏》就遇到了实际案例：最初规则挂在内部节点：
 
 `.../01_market/01c_sit_down`
 
-那么 UI 就可能提前显示、延后显示，或者玩家当前选中的右侧 objective 根本看不到提示。
+但玩家截图中真正可见的当前目标是“和竹村核对一下计划。”，同期存档的 `trackedQuestEntry` 实际为：
+
+`.../01_market/01a_meet_takemura1`
+
+所以旧规则虽然“路径存在”，却不会命中玩家当前可见的右侧 objective。修正时必须以真实 Journal objective / 存档 `trackedQuestEntry` 为准，而不是只看剧情顺序。
 
 正确修改流程：
 
@@ -439,7 +457,7 @@ python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFre
 2. **大任务和子任务是两套规则。** `questImpacts` 与 `stageHints` 都要分别检查。
 3. **右侧子任务提示是正式功能，不是临时测试。** 不要只验证左侧任务名。
 4. **不要长期手改 `GeneratedRules.reds`。** 正式源是 `data/hints.json`。
-5. **修改 objective 规则时最重要的是出现时机。** 路径“存在”不代表路径“挂得对”。
+5. **修改 objective 规则时最重要的是出现时机。** 路径“存在”不代表路径“挂得对”；能读取存档时，优先用 `metadata.9.json -> trackedQuestEntry` 对照玩家当前可见 objective。
 6. **实机验证必须看四处 UI：左侧 Journal、右侧 Journal、HUD 标题、HUD objective。**
 7. **发布 Release 前确认 ZIP 内文件哈希与当前仓库一致。**
 8. **游戏已启动时替换 `.reds` 不代表立即生效。** 必须完整重启游戏。
