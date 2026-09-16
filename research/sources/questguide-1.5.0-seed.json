@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "QuestGuide",
+    "version": "1.5.0",
+    "localReference": "references/QuestGuide-1.5.0/r6/scripts/QuestGuide/QuestGuide.reds",
+    "usage": "candidate-seed-only"
+  },
+  "entries": [
+    {
+      "questId": "02_sickness",
+      "seedKind": "point-of-no-return",
+      "reasonClass": "point-of-no-return",
+      "suspectedImpacts": ["ending"],
+      "sourceSymbols": ["QGPointOfNoReturnIds", "QGIsPointOfNoReturn"]
+    },
+    {
+      "questId": "sq004_riders_on_the_storm",
+      "seedKind": "ending-related",
+      "reasonClass": "panam-ending-route",
+      "suspectedImpacts": ["ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq031_rogue",
+      "seedKind": "ending-related",
+      "reasonClass": "rogue-johnny-ending-route",
+      "suspectedImpacts": ["ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq031_smack_my_bitch_up",
+      "seedKind": "ending-related",
+      "reasonClass": "johnny-secret-ending-chain",
+      "suspectedImpacts": ["followup", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq031_cinema",
+      "seedKind": "ending-related",
+      "reasonClass": "johnny-secret-ending-chain",
+      "suspectedImpacts": ["followup", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq030_judy_romance",
+      "seedKind": "ending-related",
+      "reasonClass": "judy-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq029_sobchak_romance",
+      "seedKind": "ending-related",
+      "reasonClass": "river-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq021_sick_dreams",
+      "seedKind": "ending-related",
+      "reasonClass": "river-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq028_kerry_romance",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq011_kerry",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq017_kerry",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq011_concert",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq011_johnny",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    },
+    {
+      "questId": "sq017_02_lounge",
+      "seedKind": "ending-related",
+      "reasonClass": "kerry-relationship-epilogue",
+      "suspectedImpacts": ["relationship", "ending"],
+      "sourceSymbols": ["QGEndingSideIds", "QGEndingReason"]
+    }
+  ]
+}

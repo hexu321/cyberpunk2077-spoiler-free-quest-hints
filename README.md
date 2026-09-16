@@ -57,9 +57,15 @@ docs/
   spoiler-policy.md      # 什么能写、什么不能写
   research-notes.md      # 已验证资料和待验证问题
 
+research/
+  candidates.jsonl       # 候选剧情影响研究队列；不会直接进游戏
+  cases/                 # 单任务详细调查记录
+  sources/               # 归一化后的来源快照/种子数据
+
 tools/
-  validate_hints.py          # 离线规则校验
-  generate_runtime_rules.py  # JSON -> GeneratedRules.reds
+  validate_hints.py                # 正式规则离线校验
+  generate_runtime_rules.py        # JSON -> GeneratedRules.reds
+  validate_research_candidates.py  # 研究候选 JSONL 校验
 
 src/
   r6/scripts/SpoilerFreeQuestHints/
