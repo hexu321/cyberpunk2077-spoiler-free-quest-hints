@@ -194,6 +194,7 @@ tools/
   generate_runtime_rules.py        # JSON -> GeneratedRules.reds
   validate_research_candidates.py  # 研究候选校验
   validate_stage_candidates.py     # 阶段候选校验
+  validate_stage_promotion.py      # research -> runtime 子任务精确挂载覆盖校验
   build_release.py                 # 构建可安装 ZIP
 
 src/

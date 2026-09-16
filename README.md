@@ -194,6 +194,7 @@ tools/
   generate_runtime_rules.py        # JSON -> GeneratedRules.reds
   validate_research_candidates.py  # Research-candidate validation
   validate_stage_candidates.py     # Stage-candidate validation
+  validate_stage_promotion.py      # Research -> runtime exact objective mount coverage
   build_release.py                 # Builds the installable release ZIP
 
 src/

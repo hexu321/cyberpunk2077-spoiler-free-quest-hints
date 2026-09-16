@@ -149,6 +149,7 @@ python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFre
 
 ```bash
 python tools/validate_hints.py data/hints.json
+python tools/validate_stage_promotion.py research/stage-candidates.jsonl data/hints.json
 python -m unittest discover -s tests -v
 ```
 
@@ -247,6 +248,23 @@ python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFre
 生成后应进入：
 
 `QOHResolveExactObjectiveLabel()`
+
+随后必须做一次 research → runtime 覆盖校验：
+
+```bash
+python tools/validate_stage_promotion.py research/stage-candidates.jsonl data/hints.json
+```
+
+这个校验不是只数条目，而是逐条检查已经达到 `journal-located` / `logic-verified` / `in-game-verified` / `ready` / `shipped` 状态的子任务是否都存在对应正式规则，并核对：
+
+- `questPath`
+- 精确 `objectivePath`
+- `level`
+- `label`
+- 正式规则 ID 是否能一对一追溯到 research ID
+- `source` 是否仍指向 `research/stage-candidates.jsonl`
+
+这样以后不会再出现“研究库有很多条、正式库看起来也有很多条，但其中某条没有真正晋升或挂到了另一个 objective”的情况。
 
 ### 第五步：验证右侧 UI 和 HUD
 
@@ -425,6 +443,7 @@ HudQuestTrackerAdapter.reds
 
 ```bash
 python tools/validate_hints.py data/hints.json
+python tools/validate_stage_promotion.py research/stage-candidates.jsonl data/hints.json
 python -m unittest discover -s tests -v
 python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFreeQuestHints/GeneratedRules.reds
 ```
@@ -461,3 +480,5 @@ python tools/generate_runtime_rules.py data/hints.json src/r6/scripts/SpoilerFre
 6. **实机验证必须看四处 UI：左侧 Journal、右侧 Journal、HUD 标题、HUD objective。**
 7. **发布 Release 前确认 ZIP 内文件哈希与当前仓库一致。**
 8. **游戏已启动时替换 `.reds` 不代表立即生效。** 必须完整重启游戏。
+9. **子任务 research → runtime 覆盖必须机器校验。** 提交前运行 `validate_stage_promotion.py`；不能只靠“两个文件条目数差不多”来判断全部已经挂载。
+10. **正式 stage rule 的 ID 必须能回溯 research。** 当前统一使用 `research.` + `research/stage-candidates.jsonl` 中的 stage ID，便于以后从运行规则直接找到研究证据。
