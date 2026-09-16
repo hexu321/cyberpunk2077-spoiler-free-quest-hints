@@ -1,21 +1,59 @@
 # Cyberpunk 2077 Spoiler-Free Quest Hints
 
-A lightweight redscript mod that adds **spoiler-free importance hints** to Cyberpunk 2077's native Journal and quest tracker.
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-Instead of telling you what to choose or what will happen, the mod only tells you when a quest or objective is worth paying closer attention to.
+A lightweight redscript mod that adds **spoiler-free quest importance hints** to Cyberpunk 2077's native Journal and gameplay quest tracker.
 
-Current in-game hints include:
+Instead of telling you what to choose or revealing what will happen, the mod only warns you when the current quest or objective is worth paying closer attention to.
 
-- Quest-level impact summaries such as `影响：人物关系 / 后续任务 / 结局条件`.
-- Objective-level labels such as `值得留意`, `重要阶段`, and `关键节点 · 建议存档`.
-- Matching hints in both the native Journal UI and the normal gameplay HUD quest tracker.
-- Stable Journal-path matching instead of relying on localized quest titles.
+> **Warn without spoiling. Leave every decision to the player.**
 
-The goal is simple: **warn without spoiling, and leave every decision to the player.**
+Current release: **`v0.1.0-beta.1`**
+
+[Download the latest release](https://github.com/hexu321/cyberpunk2077-spoiler-free-quest-hints/releases/tag/v0.1.0-beta.1)
 
 ## Screenshots
 
-A clean public-facing screenshot is not committed yet. The current build has already been verified in-game, but this first beta is intentionally being published without fabricated or third-party screenshots. A real gameplay screenshot will be added here after capture from the verified build.
+### Native Journal quest impact
+
+The quest list can show a compact, spoiler-free impact summary such as relationship, follow-up quest, or ending relevance.
+
+![Quest impact summary in the native Journal](docs/images/journal-quest-impact.png)
+
+### Gameplay HUD quest impact and stage hint
+
+The normal gameplay tracker can show both a quest-level impact summary and an objective-level importance hint without opening a separate guide window.
+
+![Quest impact and objective hint in the gameplay HUD](docs/images/hud-quest-impact-and-stage-hint.png)
+
+> The screenshots use the current Simplified Chinese in-game labels. The rule matching itself does not depend on the language of quest titles.
+
+## Features
+
+- **Native Journal integration** — quest impact summaries appear directly in the existing quest list.
+- **Objective-level hints** — active objectives can be marked as `值得留意`, `重要阶段`, or `关键节点 · 建议存档`.
+- **Gameplay HUD integration** — the same information can appear in the normal quest tracker while playing.
+- **Spoiler-free by design** — no ending names, character outcomes, rewards, recommended dialogue choices, or "best" answers.
+- **Stable Journal-path matching** — rules do not rely on localized quest-title text.
+- **Conservative rules** — when the evidence is weak, the mod prefers showing nothing rather than guessing.
+- **Controller-friendly** — no extra keyboard-only interaction is required.
+
+## What the hints mean
+
+| Level | In-game label | Meaning |
+| --- | --- | --- |
+| `none` | No hint | Ordinary progression; no extra warning. |
+| `notice` | `值得留意` | This stage may have later consequences. |
+| `important` | `重要阶段` | Pay closer attention to the current story/objective. |
+| `critical` | `关键节点 · 建议存档` | Strong evidence of long-term impact, without revealing the outcome. |
+
+Quest-level impact summaries can currently describe broad categories such as:
+
+- `人物关系` — relationship impact;
+- `后续任务` — follow-up quest impact;
+- `结局条件` — ending-condition relevance.
+
+These labels describe **importance**, not the "correct" choice.
 
 ## Requirements
 
@@ -33,7 +71,7 @@ Download the installable ZIP from the GitHub **Releases** page:
 
 Do **not** use GitHub's automatically generated `Source code.zip` as the mod installer.
 
-The release package is laid out from the Cyberpunk 2077 game root:
+The release archive is laid out from the Cyberpunk 2077 game root:
 
 ```text
 r6/
@@ -47,17 +85,17 @@ r6/
         └── HudQuestTrackerAdapter.reds
 ```
 
-## Vortex Installation
+### Vortex
 
 1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip` from GitHub Releases.
 2. Open Cyberpunk 2077 in Vortex.
-3. Add the downloaded ZIP to the Mods page, then install it.
+3. Add the ZIP to the Mods page and install it.
 4. Enable/deploy the mod if Vortex asks you to do so.
 5. Launch the game normally.
 
 Do not unpack the ZIP into an extra top-level folder before giving it to Vortex. The archive must start with `r6/`.
 
-## Manual Installation
+### Manual installation
 
 1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip`.
 2. Extract the archive directly into your Cyberpunk 2077 installation folder.
@@ -89,30 +127,19 @@ It should coexist with ordinary redscript mods, but another mod that heavily rep
 
 Because matching uses stable Journal paths, the rules do not depend on whether the player's quest titles are displayed in Chinese or English.
 
-## Known Limitations
+## Known limitations
 
 This is a beta release.
 
 - The verified rule database is still expanding; not every consequential quest or objective is covered yet.
 - Not every exact objective rule has been replayed against every possible save-state or quest branch.
-- The current hint labels are Chinese-only. Localization is planned separately.
+- The current in-game hint labels are Simplified Chinese only. Additional localization is planned separately.
 - UI overhauls that modify the same Journal or HUD quest-tracker controllers may require compatibility work.
 - The mod deliberately avoids guessing when evidence for a quest consequence is weak, so some important moments may remain unlabelled until verified.
 
-## Hint Levels
+## Spoiler policy
 
-| Level | Display | Meaning |
-| --- | --- | --- |
-| `none` | No hint | Ordinary progression; no extra warning. |
-| `notice` | `值得留意` | This stage may have later consequences. |
-| `important` | `重要阶段` | Pay attention to the current story/objective. |
-| `critical` | `关键节点 · 建议存档` | Strong evidence of long-term impact, without revealing the outcome. |
-
-These labels describe **importance**, not the "correct" choice.
-
-## Spoiler Policy
-
-The project intentionally does not display:
+The project intentionally does **not** display:
 
 - ending names;
 - who lives or dies;
@@ -124,22 +151,24 @@ The project intentionally does not display:
 
 The UI only exposes the importance level for story content the player has already reached.
 
-## Development Status
+See [`docs/spoiler-policy.md`](docs/spoiler-policy.md) for the project policy.
 
-`v0.1.0-beta.1` is the first public beta candidate.
+## Development status
+
+`v0.1.0-beta.1` is the first public beta.
 
 Already verified in the real game environment:
 
-- Journal quest-list impact summaries.
-- Journal objective importance labels.
-- HUD quest-title impact summaries.
-- HUD objective importance labels.
-- Stable Journal-path matching.
-- Offline rule validation and generated runtime rules.
+- Journal quest-list impact summaries;
+- Journal objective importance labels;
+- HUD quest-title impact summaries;
+- HUD objective importance labels;
+- stable Journal-path matching;
+- offline rule validation and generated runtime rules.
 
 Ongoing work focuses on expanding and manually reviewing the real quest-rule database.
 
-## Repository Structure
+## Repository structure
 
 ```text
 data/
@@ -148,6 +177,7 @@ data/
   hints.example.json               # Spoiler-free example data
 
 docs/
+  images/                          # In-game screenshots used by the README
   architecture.md                  # Runtime architecture
   spoiler-policy.md                # Content/spoiler policy
   research-notes.md                # Verified research notes
@@ -174,7 +204,7 @@ src/
     JournalPath.reds
 ```
 
-## Development Principles
+## Development principles
 
 1. Verify the game API before adding hooks.
 2. Every `critical` rule should have a source and human review record.
@@ -183,7 +213,7 @@ src/
 5. Future locked story content must not be scanned and exposed to the player.
 6. QuestGuide may be studied as an API/interaction reference, but its source, assets, and package files are not copied into this project.
 
-## Building the Release ZIP
+## Building the release ZIP
 
 From the repository root:
 
