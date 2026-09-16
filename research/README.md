@@ -13,7 +13,8 @@ research/
 └─ sources/
    ├─ questguide-1.5.0-seed.json     # 从本地 QuestGuide 1.5.0 归一化出的种子集合
    ├─ redmodding-quest-roots.json    # 已确认的官方 questPath / title 根信息
-   └─ source-policy.md               # 剧情影响来源、证据门槛与误报控制
+   ├─ source-policy.md               # 剧情影响来源、证据门槛与误报控制
+   └─ guide-coverage-audit.md        # 已扫攻略平台、覆盖区域与明确排除项
 ```
 
 正式进入游戏的规则仍然只来自：
