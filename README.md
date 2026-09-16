@@ -1,98 +1,200 @@
 # Cyberpunk 2077 Spoiler-Free Quest Hints
 
-一个面向《赛博朋克 2077》的“无剧透剧情重要性提示”Mod 项目。
+A lightweight redscript mod that adds **spoiler-free importance hints** to Cyberpunk 2077's native Journal and quest tracker.
 
-目标不是告诉玩家“选哪个”“会发生什么”或“哪个结局最好”，而是在原生任务日志附近，用极少的信息提醒玩家：**当前任务 / 当前 objective 是否值得特别留意**。
+Instead of telling you what to choose or what will happen, the mod only tells you when a quest or objective is worth paying closer attention to.
 
-## 设计目标
+Current in-game hints include:
 
-- **无剧透优先**：不显示结局名称、角色去向、奖励、死亡/存活、阵营结果或推荐选项。
-- **按当前 objective 判断**：同一个大任务可以包含多个连续的小步骤；提示不能只固定在整条 Quest 上，而要能随着当前 objective 变化。
-- **原生 Journal UI 优先**：最终目标是在游戏原生 Journal / 任务详情附近显示简短标签，而不是额外弹窗或攻略窗口。
-- **手柄友好**：不新增必须依赖键盘的操作。
-- **数据与 UI 分离**：剧情重要性规则独立于 UI Hook，便于校对和长期维护。
-- **保守提示**：证据不足时宁可不提示，不猜测“这个选项影响结局”。
+- Quest-level impact summaries such as `影响：人物关系 / 后续任务 / 结局条件`.
+- Objective-level labels such as `值得留意`, `重要阶段`, and `关键节点 · 建议存档`.
+- Matching hints in both the native Journal UI and the normal gameplay HUD quest tracker.
+- Stable Journal-path matching instead of relying on localized quest titles.
 
-## 提示等级
+The goal is simple: **warn without spoiling, and leave every decision to the player.**
 
-| 等级 | 建议显示 | 含义 |
+## Screenshots
+
+A clean public-facing screenshot is not committed yet. The current build has already been verified in-game, but this first beta is intentionally being published without fabricated or third-party screenshots. A real gameplay screenshot will be added here after capture from the verified build.
+
+## Requirements
+
+- Cyberpunk 2077 for PC.
+- Tested development baseline: Cyberpunk 2077 `2.31 / 2.31a`.
+- `redscript` `0.5.31` or a compatible version, together with the dependencies required by your redscript installation.
+
+The mod has no direct dependency on CET, Codeware, ArchiveXL, or TweakXL.
+
+## Installation
+
+Download the installable ZIP from the GitHub **Releases** page:
+
+`SpoilerFreeQuestHints-v0.1.0-beta.1.zip`
+
+Do **not** use GitHub's automatically generated `Source code.zip` as the mod installer.
+
+The release package is laid out from the Cyberpunk 2077 game root:
+
+```text
+r6/
+└── scripts/
+    └── SpoilerFreeQuestHints/
+        ├── GeneratedRules.reds
+        ├── HintResolver.reds
+        ├── JournalPath.reds
+        ├── JournalHintAdapter.reds
+        ├── QuestListImpactAdapter.reds
+        └── HudQuestTrackerAdapter.reds
+```
+
+## Vortex Installation
+
+1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip` from GitHub Releases.
+2. Open Cyberpunk 2077 in Vortex.
+3. Add the downloaded ZIP to the Mods page, then install it.
+4. Enable/deploy the mod if Vortex asks you to do so.
+5. Launch the game normally.
+
+Do not unpack the ZIP into an extra top-level folder before giving it to Vortex. The archive must start with `r6/`.
+
+## Manual Installation
+
+1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip`.
+2. Extract the archive directly into your Cyberpunk 2077 installation folder.
+3. Confirm that the files end up here:
+
+```text
+Cyberpunk 2077/r6/scripts/SpoilerFreeQuestHints/
+```
+
+4. Launch the game normally. redscript will compile the scripts during startup.
+
+## Uninstallation
+
+Remove this directory from the game installation:
+
+```text
+Cyberpunk 2077/r6/scripts/SpoilerFreeQuestHints/
+```
+
+If you installed through Vortex, remove or disable the mod through Vortex and deploy the changes.
+
+The mod does not intentionally write save-game data, so removing it should only remove the UI hints.
+
+## Compatibility
+
+The mod wraps native Journal and quest-tracker controllers rather than replacing the whole UI.
+
+It should coexist with ordinary redscript mods, but another mod that heavily replaces or rewrites the same Journal / Quest Tracker controller behavior may conflict with it. If a UI overhaul changes those native controllers, compatibility should be tested separately.
+
+Because matching uses stable Journal paths, the rules do not depend on whether the player's quest titles are displayed in Chinese or English.
+
+## Known Limitations
+
+This is a beta release.
+
+- The verified rule database is still expanding; not every consequential quest or objective is covered yet.
+- Not every exact objective rule has been replayed against every possible save-state or quest branch.
+- The current hint labels are Chinese-only. Localization is planned separately.
+- UI overhauls that modify the same Journal or HUD quest-tracker controllers may require compatibility work.
+- The mod deliberately avoids guessing when evidence for a quest consequence is weak, so some important moments may remain unlabelled until verified.
+
+## Hint Levels
+
+| Level | Display | Meaning |
 | --- | --- | --- |
-| `none` | 不显示 | 普通推进，不需要额外提醒 |
-| `notice` | `值得留意` | 当前阶段可能有后续影响，但不需要打断游玩 |
-| `important` | `重要阶段` | 建议认真看当前剧情/目标，不要机械跳过 |
-| `critical` | `关键节点 · 建议存档` | 当前阶段存在较强的长期影响证据，但仍不告诉玩家具体后果 |
+| `none` | No hint | Ordinary progression; no extra warning. |
+| `notice` | `值得留意` | This stage may have later consequences. |
+| `important` | `重要阶段` | Pay attention to the current story/objective. |
+| `critical` | `关键节点 · 建议存档` | Strong evidence of long-term impact, without revealing the outcome. |
 
-> 这些标签只描述“重要性”，不描述“正确答案”。
+These labels describe **importance**, not the "correct" choice.
 
-## 当前状态
+## Spoiler Policy
 
-**Milestone 1：原生 Journal + HUD 技术底座已验证，正在扩充真实规则库。**
+The project intentionally does not display:
 
-已经完成并在实际游戏环境验证：
+- ending names;
+- who lives or dies;
+- character outcomes;
+- rewards;
+- faction outcomes;
+- recommended dialogue choices;
+- "best" or "correct" options.
 
-- Journal 左侧任务列表可显示整条任务的 `影响：……` 摘要。
-- Journal 右侧 objective 可按当前 active objective 显示重要性标签。
-- 正常游玩 HUD 的任务标题和 objective 同样支持对应提示。
-- 运行时使用真实 Journal path，不依赖中英文任务标题做匹配。
-- `data/hints.json` 使用两层规则：`questImpacts` 负责总任务影响类型，`stageHints` 负责具体阶段重要性。
-- 规则经 Python 校验并生成 `GeneratedRules.reds`，再由 redscript 编译进游戏。
-- QuestGuide 只作为交互/API 研究参考，不复制其源码、资产或打包文件。
+The UI only exposes the importance level for story content the player has already reached.
 
-仍在进行：
+## Development Status
 
-- 扩充并人工复核真实剧情规则数据库。
-- 用对应存档逐条验证 exact objective 规则只在目标阶段显示。
-- 可安装 release / Vortex 打包。
+`v0.1.0-beta.1` is the first public beta candidate.
 
-## 仓库结构
+Already verified in the real game environment:
+
+- Journal quest-list impact summaries.
+- Journal objective importance labels.
+- HUD quest-title impact summaries.
+- HUD objective importance labels.
+- Stable Journal-path matching.
+- Offline rule validation and generated runtime rules.
+
+Ongoing work focuses on expanding and manually reviewing the real quest-rule database.
+
+## Repository Structure
 
 ```text
 data/
-  hints.json             # 经人工复核的真实规则
-  hints.schema.json      # 两层规则文件约束
-  hints.example.json     # 无剧情内容的示例
+  hints.json                       # Manually reviewed production rules
+  hints.schema.json                # Rule constraints
+  hints.example.json               # Spoiler-free example data
 
 docs/
-  architecture.md        # 运行时架构与 UI 方向
-  spoiler-policy.md      # 什么能写、什么不能写
-  research-notes.md      # 已验证资料和待验证问题
+  architecture.md                  # Runtime architecture
+  spoiler-policy.md                # Content/spoiler policy
+  research-notes.md                # Verified research notes
 
 research/
-  candidates.jsonl       # 候选剧情影响研究队列；不会直接进游戏
-  cases/                 # 单任务详细调查记录
-  sources/               # 归一化后的来源快照/种子数据
+  candidates.jsonl                 # Candidate consequence research queue
+  cases/                           # Per-quest investigation records
+  sources/                         # Normalized research sources
 
 tools/
-  validate_hints.py                # 正式规则离线校验
+  validate_hints.py                # Production-rule validation
   generate_runtime_rules.py        # JSON -> GeneratedRules.reds
-  validate_research_candidates.py  # 研究候选 JSONL 校验
+  validate_research_candidates.py  # Research-candidate validation
+  validate_stage_candidates.py     # Stage-candidate validation
+  build_release.py                 # Builds the installable release ZIP
 
 src/
   r6/scripts/SpoilerFreeQuestHints/
-    GeneratedRules.reds          # 自动生成的运行时规则
-    HintResolver.reds            # 任务影响 / objective 提示解析
-    JournalHintAdapter.reds      # Journal 右侧 objective 提示
-    QuestListImpactAdapter.reds  # Journal 左侧总任务影响
-    HudQuestTrackerAdapter.reds  # 正常游玩 HUD 提示
-    JournalPath.reds             # Journal path 构建与归属 quest 查找
+    GeneratedRules.reds
+    HintResolver.reds
+    JournalHintAdapter.reds
+    QuestListImpactAdapter.reds
+    HudQuestTrackerAdapter.reds
+    JournalPath.reds
 ```
 
-## 开发原则
+## Development Principles
 
-1. 先验证游戏 API，再写 Hook。
-2. 每一条 `critical` 规则必须有来源和人工复核记录。
-3. 数据中禁止保存“推荐选项”“结局名字”“谁会死”等直接剧透字段。
-4. UI 只显示当前玩家已经到达的任务阶段对应标签。
-5. 不扫描未解锁剧情并把未来内容暴露给玩家。
+1. Verify the game API before adding hooks.
+2. Every `critical` rule should have a source and human review record.
+3. Production data must not contain recommended choices, ending names, or direct outcome spoilers.
+4. UI hints only describe the current quest/objective the player has reached.
+5. Future locked story content must not be scanned and exposed to the player.
+6. QuestGuide may be studied as an API/interaction reference, but its source, assets, and package files are not copied into this project.
 
-## 目标运行环境
+## Building the Release ZIP
 
-研究阶段以 2026 年社区文档中常用的 Windows 基线为参考：Cyberpunk 2077 2.31/2.31a、RED4ext、redscript 0.5.31。最终 release 前仍需在用户实际安装版本上验证。
+From the repository root:
 
-## 项目边界
+```bash
+python tools/build_release.py
+```
 
-这个项目不是剧情攻略，也不是结局选择器。它更像游戏里的一个“谨慎提醒层”：
+The installable archive is written to:
 
-> **“这一步值得你认真一点。”**
+```text
+dist/SpoilerFreeQuestHints-v0.1.0-beta.1.zip
+```
 
-然后把选择权完整留给玩家。
+`dist/` is intentionally ignored by Git.
