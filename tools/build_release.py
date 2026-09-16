@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 
 
-VERSION = "v0.1.0-beta.1"
+VERSION = "v0.1.0-beta.2"
 PACKAGE_NAME = f"SpoilerFreeQuestHints-{VERSION}.zip"
 RUNTIME_FILES = (
     "GeneratedRules.reds",

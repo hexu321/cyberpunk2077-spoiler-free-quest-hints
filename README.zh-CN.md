@@ -8,9 +8,9 @@
 
 > **提醒重要性，但不剧透；所有选择都留给玩家自己。**
 
-当前版本：**`v0.1.0-beta.1`**
+当前版本：**`v0.1.0-beta.2`**
 
-[下载最新版本](https://github.com/hexu321/cyberpunk2077-spoiler-free-quest-hints/releases/tag/v0.1.0-beta.1)
+[下载最新版本](https://github.com/hexu321/cyberpunk2077-spoiler-free-quest-hints/releases/tag/v0.1.0-beta.2)
 
 ## 实机截图
 
@@ -67,7 +67,7 @@
 
 请从 GitHub **Releases** 页面下载真正的模组安装包：
 
-`SpoilerFreeQuestHints-v0.1.0-beta.1.zip`
+`SpoilerFreeQuestHints-v0.1.0-beta.2.zip`
 
 **不要**把 GitHub 自动生成的 `Source code.zip` 当作模组安装包。
 
@@ -87,7 +87,7 @@ r6/
 
 ### 使用 Vortex 安装
 
-1. 从 GitHub Releases 下载 `SpoilerFreeQuestHints-v0.1.0-beta.1.zip`。
+1. 从 GitHub Releases 下载 `SpoilerFreeQuestHints-v0.1.0-beta.2.zip`。
 2. 在 Vortex 中打开 Cyberpunk 2077。
 3. 将下载的 ZIP 添加到 Mods 页面并安装。
 4. 如果 Vortex 提示，请启用并部署该模组。
@@ -97,7 +97,7 @@ r6/
 
 ### 手动安装
 
-1. 下载 `SpoilerFreeQuestHints-v0.1.0-beta.1.zip`。
+1. 下载 `SpoilerFreeQuestHints-v0.1.0-beta.2.zip`。
 2. 直接解压到 Cyberpunk 2077 游戏根目录。
 3. 确认文件最终位于：
 
@@ -155,7 +155,7 @@ UI 只会针对玩家已经到达的剧情内容，显示其重要性等级。
 
 ## 当前开发状态
 
-`v0.1.0-beta.1` 是第一个公开 Beta 版本。
+`v0.1.0-beta.2` 扩充了已复核规则的运行时 UI 覆盖，并修复了首个公开 Beta 中发现的“研究库已确认但未晋升到 UI”的遗漏。
 
 已经在真实游戏环境中验证：
 
@@ -224,7 +224,7 @@ python tools/build_release.py
 可安装压缩包会生成到：
 
 ```text
-dist/SpoilerFreeQuestHints-v0.1.0-beta.1.zip
+dist/SpoilerFreeQuestHints-v0.1.0-beta.2.zip
 ```
 
 `dist/` 已加入 Git 忽略，不会作为源码提交。

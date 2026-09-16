@@ -8,9 +8,9 @@ Instead of telling you what to choose or revealing what will happen, the mod onl
 
 > **Warn without spoiling. Leave every decision to the player.**
 
-Current release: **`v0.1.0-beta.1`**
+Current release: **`v0.1.0-beta.2`**
 
-[Download the latest release](https://github.com/hexu321/cyberpunk2077-spoiler-free-quest-hints/releases/tag/v0.1.0-beta.1)
+[Download the latest release](https://github.com/hexu321/cyberpunk2077-spoiler-free-quest-hints/releases/tag/v0.1.0-beta.2)
 
 ## Screenshots
 
@@ -67,7 +67,7 @@ The mod has no direct dependency on CET, Codeware, ArchiveXL, or TweakXL.
 
 Download the installable ZIP from the GitHub **Releases** page:
 
-`SpoilerFreeQuestHints-v0.1.0-beta.1.zip`
+`SpoilerFreeQuestHints-v0.1.0-beta.2.zip`
 
 Do **not** use GitHub's automatically generated `Source code.zip` as the mod installer.
 
@@ -87,7 +87,7 @@ r6/
 
 ### Vortex
 
-1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip` from GitHub Releases.
+1. Download `SpoilerFreeQuestHints-v0.1.0-beta.2.zip` from GitHub Releases.
 2. Open Cyberpunk 2077 in Vortex.
 3. Add the ZIP to the Mods page and install it.
 4. Enable/deploy the mod if Vortex asks you to do so.
@@ -97,7 +97,7 @@ Do not unpack the ZIP into an extra top-level folder before giving it to Vortex.
 
 ### Manual installation
 
-1. Download `SpoilerFreeQuestHints-v0.1.0-beta.1.zip`.
+1. Download `SpoilerFreeQuestHints-v0.1.0-beta.2.zip`.
 2. Extract the archive directly into your Cyberpunk 2077 installation folder.
 3. Confirm that the files end up here:
 
@@ -155,7 +155,7 @@ See [`docs/spoiler-policy.md`](docs/spoiler-policy.md) for the project policy.
 
 ## Development status
 
-`v0.1.0-beta.1` is the first public beta.
+`v0.1.0-beta.2` expands reviewed runtime rule coverage and fixes research-to-UI promotion gaps found after the first public beta.
 
 Already verified in the real game environment:
 
@@ -224,7 +224,7 @@ python tools/build_release.py
 The installable archive is written to:
 
 ```text
-dist/SpoilerFreeQuestHints-v0.1.0-beta.1.zip
+dist/SpoilerFreeQuestHints-v0.1.0-beta.2.zip
 ```
 
 `dist/` is intentionally ignored by Git.
